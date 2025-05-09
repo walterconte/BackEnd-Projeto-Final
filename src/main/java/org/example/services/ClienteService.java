@@ -32,6 +32,7 @@ public class ClienteService {
             clienteSistema.setCliCpf(cliente.getCliCpf());
             clienteSistema.setCliEmail(cliente.getCliEmail());
             clienteSistema.setCliTelefone(cliente.getCliTelefone());
+            clienteSistema.setCliEndereco(cliente.getCliEndereco());
             repository.save(clienteSistema);
             return true;
         }
