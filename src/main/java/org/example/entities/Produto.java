@@ -2,6 +2,7 @@ package org.example.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 public class Produto implements Serializable {
@@ -29,10 +30,25 @@ public class Produto implements Serializable {
     @Column(name = "PRO_STATUS")
     private String proStatus;
 
+    @Column(name = "PRO_CATEGORIA")
+    private String proCategoria;
+
+    @Column(name = "PRO_CODIGOBARRAS")
+    private String proCodigoBarras;
+
+    @Column(name = "PRO_MARCA")
+    private String proMarca;
+
+    @Column(name = "PRO_DATACADASTRO")
+    private LocalDateTime proDataCadastro;
+
+    @Column(name = "PRO_DATAATUALIZACAO")
+    private LocalDateTime proDataAtualizacao;
+
     public Produto() {
     }
 
-    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeStock, String proStatus) {
+    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeStock, String proStatus, String proCategoria, String proCodigoBarras, String proMarca, LocalDateTime proDataCadastro, LocalDateTime proDataAtualizacao) {
         this.proId = proId;
         this.proNome = proNome;
         this.proPrecoCusto = proPrecoCusto;
@@ -40,6 +56,11 @@ public class Produto implements Serializable {
         this.proDescricao = proDescricao;
         this.proQuantidadeStock = proQuantidadeStock;
         this.proStatus = proStatus;
+        this.proCategoria = proCategoria;
+        this.proCodigoBarras = proCodigoBarras;
+        this.proMarca = proMarca;
+        this.proDataCadastro = proDataCadastro;
+        this.proDataAtualizacao = proDataAtualizacao;
     }
 
     public Long getProId() {
@@ -96,5 +117,45 @@ public class Produto implements Serializable {
 
     public void setProStatus(String proStatus) {
         this.proStatus = proStatus;
+    }
+
+    public String getProCategoria() {
+        return proCategoria;
+    }
+
+    public void setProCategoria(String proCategoria) {
+        this.proCategoria = proCategoria;
+    }
+
+    public String getProCodigoBarras() {
+        return proCodigoBarras;
+    }
+
+    public void setProCodigoBarras(String proCodigoBarras) {
+        this.proCodigoBarras = proCodigoBarras;
+    }
+
+    public String getProMarca() {
+        return proMarca;
+    }
+
+    public void setProMarca(String proMarca) {
+        this.proMarca = proMarca;
+    }
+
+    public LocalDateTime getProDataCadastro() {
+        return proDataCadastro;
+    }
+
+    public void setProDataCadastro(LocalDateTime proDataCadastro) {
+        this.proDataCadastro = proDataCadastro;
+    }
+
+    public LocalDateTime getProDataAtualizacao() {
+        return proDataAtualizacao;
+    }
+
+    public void setProDataAtualizacao(LocalDateTime proDataAtualizacao) {
+        this.proDataAtualizacao = proDataAtualizacao;
     }
 }
