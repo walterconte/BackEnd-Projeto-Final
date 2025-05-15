@@ -24,8 +24,8 @@ public class Produto implements Serializable {
     @Column(name = "PRO_DESCRICAO")
     private String proDescricao;
 
-    @Column(name = "PRO_QUANTIDADESTOCK")
-    private int proQuantidadeStock;
+    @Column(name = "PRO_QUANTIDADE_ESTQUE")
+    private int proQuantidadeEstoque;
 
     @Column(name = "PRO_STATUS")
     private String proStatus;
@@ -48,13 +48,13 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeStock, String proStatus, String proCategoria, String proCodigoBarras, String proMarca, LocalDateTime proDataCadastro, LocalDateTime proDataAtualizacao) {
+    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeEstoque, String proStatus, String proCategoria, String proCodigoBarras, String proMarca, LocalDateTime proDataCadastro, LocalDateTime proDataAtualizacao) {
         this.proId = proId;
         this.proNome = proNome;
         this.proPrecoCusto = proPrecoCusto;
         this.proPrecoVenda = proPrecoVenda;
         this.proDescricao = proDescricao;
-        this.proQuantidadeStock = proQuantidadeStock;
+        this.proQuantidadeEstoque = proQuantidadeEstoque;
         this.proStatus = proStatus;
         this.proCategoria = proCategoria;
         this.proCodigoBarras = proCodigoBarras;
@@ -103,12 +103,12 @@ public class Produto implements Serializable {
         this.proDescricao = proDescricao;
     }
 
-    public int getProQuantidadeStock() {
-        return proQuantidadeStock;
+    public int getProQuantidadeEstoque() {
+        return proQuantidadeEstoque;
     }
 
-    public void setProQuantidadeStock(int proQuantidadeStock) {
-        this.proQuantidadeStock = proQuantidadeStock;
+    public void setProQuantidadeEstoque(int proQuantidadeEstoque) {
+        this.proQuantidadeEstoque = proQuantidadeEstoque;
     }
 
     public String getProStatus() {
