@@ -1,6 +1,9 @@
 package org.example.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -14,11 +17,18 @@ public class Contato implements Serializable {
     @Column(name = "CON_CELULAR", length = 14)
     private String conCelular;
 
-    @Column(name = "CON_TELEFONE_COMERCIAL", length = 14)
+    @NotBlank(message = "Contato de telefone comercial é obrigatório")
+    @Size(message = "Contato comercial inválido")
+    @Column(name = "CON_TELEFONE_COMERCIAL", length = 55)
     private String conTelefoneComercial;
 
-    @Column(length = 55, name = "CON_EMAIL")
+
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
+    @Size(max = 100,message = "Email deve ter no máximo 100 caracteres")
+    @Column(name = "CON_EMAIL", nullable = false, length = 55)
     private String conEmail;
+
 
     public Contato() {
     }

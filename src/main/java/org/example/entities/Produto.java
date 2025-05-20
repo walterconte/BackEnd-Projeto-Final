@@ -1,6 +1,8 @@
 package org.example.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -12,7 +14,9 @@ public class Produto implements Serializable {
     @Column(name = "PRO_ID")
     private Long proId;
 
-    @Column(name = "PRO_NOME")
+    @NotBlank(message = "Nome do produto é obrigatório")
+    @Size(max = 100, message = "Nome do produto inválido")
+    @Column(name = "PRO_NOME", length = 100)
     private String proNome;
 
     @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2)
@@ -21,22 +25,29 @@ public class Produto implements Serializable {
     @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2)
     private Double proPrecoVenda;
 
-    @Column(name = "PRO_DESCRICAO")
+    @Size(max = 255, message = "Descrição do produto inválida")
+    @Column(name = "PRO_DESCRICAO", length = 255)
     private String proDescricao;
 
     @Column(name = "PRO_QUANTIDADE_ESTQUE")
     private int proQuantidadeEstoque;
 
-    @Column(name = "PRO_STATUS")
+    @NotBlank(message = "Status do produto é obrigatório")
+    @Size(max = 20, message = "Status do produto inválido")
+    @Column(name = "PRO_STATUS", length = 20)
     private String proStatus;
 
-    @Column(name = "PRO_CATEGORIA")
+    @NotBlank(message = "Categoria do produto é obrigatória")
+    @Size(max = 50, message = "Categoria do produto inválida")
+    @Column(name = "PRO_CATEGORIA", length = 50)
     private String proCategoria;
 
-    @Column(name = "PRO_CODIGOBARRAS")
+    @Size(max = 50, message = "Código de barras inválido")
+    @Column(name = "PRO_CODIGOBARRAS", length = 50)
     private String proCodigoBarras;
 
-    @Column(name = "PRO_MARCA")
+    @Size(max = 50, message = "Marca inválida")
+    @Column(name = "PRO_MARCA", length = 50)
     private String proMarca;
 
     @Column(name = "PRO_DATACADASTRO")
@@ -44,6 +55,7 @@ public class Produto implements Serializable {
 
     @Column(name = "PRO_DATAATUALIZACAO")
     private LocalDateTime proDataAtualizacao;
+
 
     public Produto() {
     }
