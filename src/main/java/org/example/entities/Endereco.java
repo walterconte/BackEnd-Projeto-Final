@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -12,6 +14,11 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "END_ID")
     private Long endId;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "END_CLI_ID")
+    private Cliente endCliente;
 
     @NotBlank(message = "Endereço de rua é obrigatório")
     @Size(max = 100, message = "Endereço de rua inválido")
@@ -39,11 +46,13 @@ public class Endereco implements Serializable {
     private String endEstado;
 
 
+
     public Endereco() {
     }
 
-    public Endereco(Long endId, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
+    public Endereco(Long endId,Cliente endCliente, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
         this.endId = endId;
+        this.endCliente = endCliente;
         this.endRua = endRua;
         this.endNumero = endNumero;
         this.endCidade = endCidade;
