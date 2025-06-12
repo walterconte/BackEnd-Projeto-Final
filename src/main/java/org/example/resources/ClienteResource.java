@@ -1,5 +1,6 @@
 package org.example.resources;
 
+import org.example.dto.ClienteDTO;
 import org.example.entities.Cliente;
 import org.example.entities.Fornecedor;
 import org.example.services.ClienteService;
@@ -20,7 +21,7 @@ public class ClienteResource {
 
     @GetMapping
     public ResponseEntity<List<Cliente>> getAll(){
-        List<Cliente> clientes = clienteService.getAll();
+        List<Cliente> clientes = clienteService.findAll();
         return ResponseEntity.ok(clientes);
     }
 
@@ -47,7 +48,7 @@ public class ClienteResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        clienteService.delete(id);
+        clienteService.deleteCliente(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,9 +1,18 @@
 package org.example.services;
 
+import org.example.dto.ClienteDTO;
 import org.example.entities.Cliente;
+import org.example.entities.Contato;
+import org.example.entities.Endereco;
 import org.example.repositories.ClienteRepository;
+import org.example.repositories.ContatoRepository;
+import org.example.repositories.EnderecoRepository;
 import org.example.services.exeptions.ResourceNotFoundException;
+import org.example.services.exeptions.ValueBigForAtributeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,27 +24,110 @@ public class ClienteService {
     @Autowired
     private ClienteRepository repository;
 
-    public List<Cliente> getAll(){ return repository.findAll();}
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+
+    public List<Cliente> findAll() {
+        return repository.findAll();
+    }
 
     public Cliente findById(Long id) {
         Optional<Cliente> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Cliente insert(Cliente cliente){ return repository.save(cliente); }
-
-    public boolean update(Long id, Cliente cliente){
-        Optional<Cliente> optionalCliente = repository.findById(id);
-        if (optionalCliente.isPresent()) {
-            Cliente clienteSistema = optionalCliente.get();
-            clienteSistema.setCliNome(cliente.getCliNome());
-            clienteSistema.setCliCpf(cliente.getCliCpf());
-            clienteSistema.setCliEndereco(cliente.getCliEndereco());
-            repository.save(clienteSistema);
-            return true;
+    public Cliente insert(Cliente obj) {
+        try {
+            obj.setCliId(null);
+            obj = repository.save(obj);
+            enderecoRepository.saveAll(obj.getEnderecos());
+            return obj;
+        } catch (DataIntegrityViolationException e) {
+            throw new ValueBigForAtributeException(e.getMessage());
         }
-        return false;
     }
-    public void delete(Long id) { repository.deleteById(id);}
 
+    public Cliente update(Long id, ClienteDTO objDto) {
+        try {
+            Cliente entity = findById(id);
+            // Atualiza os dados do cliente
+            entity.setCliNome(objDto.getCliNome());
+            entity.setCliCpf(objDto.getCliCpf());
+
+            //A tualiza o endereco do cliente
+            Endereco endereco = entity.getEnderecos().get(0);
+            // Assumindo que há apenas um endereco por cliente
+            endereco.setEndRua(objDto.getEndRua());
+            endereco.setEndNumero(objDto.getEndNumero());
+            endereco.setEndCidade(objDto.getEndCidade());
+            endereco.setEndCep(objDto.getEndCep());
+            endereco.setEndEstado(objDto.getEndEstado());
+
+            // Atualiza o contato
+            Contato contato = entity.getContatos().get(0);
+            //Assumindo que há apenas um contato por cliente
+            contato.setConCelular(objDto.getConCelular());
+            contato.setConTelefoneComercial(objDto.getConTelefoneComercial());
+            contato.setConEmail(objDto.getConEmail());
+
+            // Salva as alterações
+            repository.save(entity);
+
+            return entity;
+        }catch (DataIntegrityViolationException e){
+            throw new ValueBigForAtributeException(e.getMessage());
+        }
+    }
+
+    public void deleteCliente(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }
+    }
+
+    public Cliente fromDTO(ClienteDTO objDto) {
+        Cliente fornec = new Cliente(null, objDto.getCliNome(), objDto.getCliCpf());
+
+        Endereco ender = new Endereco(null, fornec, objDto.getEndRua(), objDto.getEndNumero(),
+                objDto.getEndCidade(), objDto.getEndCep(),
+                objDto.getEndEstado());
+
+        Contato contato = new Contato(null, fornec, objDto.getConCelular(), objDto.getConTelefoneComercial(),
+                objDto.getConEmail());
+
+        fornec.getEnderecos().add(ender);
+        fornec.getContatos().add(contato);
+
+        return fornec;
+    }
+
+    public ClienteDTO toNewDTO(Cliente obj) {
+        ClienteDTO dto = new ClienteDTO();
+
+// Mapeie os atributos comuns entre Cliente e ClienteNewDTO
+        dto.setCliId(obj.getCliId());
+        dto.setCliNome(obj.getCliNome());
+        dto.setCliCpf(obj.getCliCpf());
+
+// Atributos específicos de Endereco
+        Endereco endereco = obj.getEnderecos().get(0);
+        dto.setEndRua(endereco.getEndRua());
+        dto.setEndNumero(endereco.getEndNumero());
+        dto.setEndCidade(endereco.getEndCidade());
+        dto.setEndCep(endereco.getEndCep());
+        dto.setEndEstado(endereco.getEndEstado());
+
+// Atributos específicos de Contato
+        Contato contato = obj.getContatos().get(0);
+        dto.setConCelular(contato.getConCelular());
+        dto.setConTelefoneComercial(contato.getConTelefoneComercial());
+        dto.setConEmail(contato.getConEmail());
+
+        return dto;
+    }
 }
+
+

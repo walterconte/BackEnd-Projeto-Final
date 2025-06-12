@@ -19,7 +19,7 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "endCliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "endCliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "conCliente", cascade = CascadeType.ALL)
     private List<Contato> contatos = new ArrayList<>();
 
     @NotBlank(message = "Nome é obrigatório")
@@ -33,19 +33,14 @@ public class Cliente implements Serializable {
     private String cliCpf;
 
 
-    @NotBlank(message = " Endereço é obrigatório")
-    @Size(max = 100, message = "Endereço pode conter até 100 caracteres")
-    @Column(name = "CLI_ENDERECO", nullable = false, length = 100)
-    private String cliEndereco;
-
     public Cliente() {
     }
 
-    public Cliente(Long cliId, String cliNome, String cliCpf, String cliEndereco) {
+    public Cliente(Long cliId, String cliNome, String cliCpf) {
         this.cliId = cliId;
         this.cliNome = cliNome;
         this.cliCpf = cliCpf;
-        this.cliEndereco = cliEndereco;
+
     }
 
     public Long getCliId() {
@@ -88,12 +83,4 @@ public class Cliente implements Serializable {
         this.cliCpf = cliCpf;
     }
 
-
-    public String getCliEndereco() {
-        return cliEndereco;
-    }
-
-    public void setCliEndereco(String cliEndereco) {
-        this.cliEndereco = cliEndereco;
-    }
 }

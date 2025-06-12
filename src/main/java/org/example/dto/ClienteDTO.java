@@ -10,7 +10,6 @@ public class ClienteDTO {
     private String cliNome;
     private String cliCpf;
 
-    private String cliEndereco;
 
 
     private String endRua;
@@ -18,6 +17,10 @@ public class ClienteDTO {
     private String endCidade;
     private String endCep;
     private String endEstado;
+
+    private String conCelular;
+    private String conTelefoneComercial;
+    private String conEmail;
 
     public ClienteDTO() {
     }
@@ -46,13 +49,6 @@ public class ClienteDTO {
         this.cliCpf = cliCpf;
     }
 
-    public String getCliEndereco() {
-        return cliEndereco;
-    }
-
-    public void setCliEndereco(String cliEndereco) {
-        this.cliEndereco = cliEndereco;
-    }
 
     public String getEndRua() {
         return endRua;
@@ -92,5 +88,29 @@ public class ClienteDTO {
 
     public void setEndEstado(String endEstado) {
         this.endEstado = endEstado;
+    }
+
+    public String getConCelular() {
+        return conCelular;
+    }
+
+    public void setConCelular(String conCelular) {
+        this.conCelular = conCelular;
+    }
+
+    public String getConTelefoneComercial() {
+        return conTelefoneComercial;
+    }
+
+    public void setConTelefoneComercial(String conTelefoneComercial) {
+        this.conTelefoneComercial = conTelefoneComercial;
+    }
+
+    public String getConEmail() {
+        return conEmail;
+    }
+
+    public void setConEmail(String conEmail) {
+        this.conEmail = conEmail;
     }
 }
