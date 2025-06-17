@@ -20,6 +20,12 @@ public class Endereco implements Serializable {
     @JoinColumn(name = "END_CLI_ID")
     private Cliente endCliente;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "END_FOR_ID")
+    private Fornecedor endFornecedor;
+
+
     @NotBlank(message = "Endereço de rua é obrigatório")
     @Size(max = 100, message = "Endereço de rua inválido")
     @Column(name = "END_RUA", length = 100)
@@ -60,6 +66,17 @@ public class Endereco implements Serializable {
         this.endEstado = endEstado;
     }
 
+    public Endereco(Long endId,Fornecedor endFornecedor, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
+        this.endId = endId;
+        this.endFornecedor = endFornecedor;
+        this.endRua = endRua;
+        this.endNumero = endNumero;
+        this.endCidade = endCidade;
+        this.endCep = endCep;
+        this.endEstado = endEstado;
+    }
+
+
     public Long getEndId() {
         return endId;
     }
@@ -74,6 +91,14 @@ public class Endereco implements Serializable {
 
     public void setEndCliente(Cliente endCliente) {
         this.endCliente = endCliente;
+    }
+
+    public Fornecedor getEndFornecedor() {
+        return endFornecedor;
+    }
+
+    public void setEndFornecedor(Fornecedor endFornecedor) {
+        this.endFornecedor = endFornecedor;
     }
 
     public String getEndRua() {

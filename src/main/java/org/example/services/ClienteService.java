@@ -5,12 +5,10 @@ import org.example.entities.Cliente;
 import org.example.entities.Contato;
 import org.example.entities.Endereco;
 import org.example.repositories.ClienteRepository;
-import org.example.repositories.ContatoRepository;
 import org.example.repositories.EnderecoRepository;
 import org.example.services.exeptions.ResourceNotFoundException;
 import org.example.services.exeptions.ValueBigForAtributeException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -89,19 +87,19 @@ public class ClienteService {
     }
 
     public Cliente fromDTO(ClienteDTO objDto) {
-        Cliente fornec = new Cliente(null, objDto.getCliNome(), objDto.getCliCpf());
+        Cliente clien = new Cliente(null, objDto.getCliNome(), objDto.getCliCpf());
 
-        Endereco ender = new Endereco(null, fornec, objDto.getEndRua(), objDto.getEndNumero(),
+        Endereco ender = new Endereco(null, clien, objDto.getEndRua(), objDto.getEndNumero(),
                 objDto.getEndCidade(), objDto.getEndCep(),
                 objDto.getEndEstado());
 
-        Contato contato = new Contato(null, fornec, objDto.getConCelular(), objDto.getConTelefoneComercial(),
+        Contato contato = new Contato(null, clien, objDto.getConCelular(), objDto.getConTelefoneComercial(),
                 objDto.getConEmail());
 
-        fornec.getEnderecos().add(ender);
-        fornec.getContatos().add(contato);
+        clien.getEnderecos().add(ender);
+        clien.getContatos().add(contato);
 
-        return fornec;
+        return clien;
     }
 
     public ClienteDTO toNewDTO(Cliente obj) {
