@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -28,8 +30,8 @@ public class Cliente implements Serializable {
     private String cliNome;
 
     @NotBlank(message = "CPF é obrigatório")
-    @Size(message = "CPF inválido")
-    @Column(name = "CLI_CPF", nullable = false, unique = true, length = 15)
+    @CPF(message = "CPF inválido")
+    @Column(name = "CLI_CPF", length = 15, nullable = false, unique = true)
     private String cliCpf;
 
 

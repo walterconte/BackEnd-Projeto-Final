@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -27,8 +29,8 @@ public class Fornecedor implements Serializable {
     private String forNomeFantasia;
 
     @NotBlank(message = "CNPJ é obrigatório")
-    @Size(message = "CNPJ inválido")
-    @Column(name = "FOR_CNPJ", nullable = false, unique = true, length = 18)
+    @CNPJ(message = "CNPJ inválido")
+    @Column(name = "FOR_CNPJ", length = 18,nullable = false, unique = true)
     private String forCnpj;
 
     @NotBlank(message = "Razão Social é obrigatorio")

@@ -1,6 +1,8 @@
 package org.example.dto;
 
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,6 +10,7 @@ import javax.validation.constraints.Size;
 public class ClienteDTO {
     private Long cliId;
     private String cliNome;
+    @CPF(message = "CPF inválido")
     private String cliCpf;
 
 
