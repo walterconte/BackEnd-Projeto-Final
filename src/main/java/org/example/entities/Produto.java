@@ -1,10 +1,13 @@
 package org.example.entities;
 
+import org.example.repositories.FornecedorRepository;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Produto implements Serializable {
@@ -14,40 +17,46 @@ public class Produto implements Serializable {
     @Column(name = "PRO_ID")
     private Long proId;
 
-    @NotBlank(message = "Nome do produto é obrigatório")
-    @Size(max = 100, message = "Nome do produto inválido")
-    @Column(name = "PRO_NOME", length = 100)
+    @ManyToOne
+    @JoinColumn(name = "FOR_ID", nullable = false)
+    private Fornecedor fornecedor;
+
+
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(max = 255, message = "Nome deve ter no máximo 255 caracteres")
+    @Column(name = "PRO_NOME")
     private String proNome;
 
-    @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2)
+    @NotNull(message = "Preço de Custo é obrigatório")
+    @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2, nullable = false)
     private Double proPrecoCusto;
 
-    @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2)
+    @NotNull(message = "Preço de Venda é obrigatório")
+    @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2, nullable = false)
     private Double proPrecoVenda;
 
-    @Size(max = 255, message = "Descrição do produto inválida")
-    @Column(name = "PRO_DESCRICAO", length = 255)
+    @Size(max = 500, message = "Descrição deve ter no máximo 500 caracteres")
+    @Column(name = "PRO_DESCRICAO")
     private String proDescricao;
 
-    @Column(name = "PRO_QUANTIDADE_ESTQUE")
-    private int proQuantidadeEstoque;
+    @NotNull(message = "Quantidade em Estoque é obrigatória")
+    @Column(name = "PRO_QUANTIDADESTOCK", nullable = false)
+    private int proQuantidadeStock;
 
-    @NotBlank(message = "Status do produto é obrigatório")
-    @Size(max = 20, message = "Status do produto inválido")
-    @Column(name = "PRO_STATUS", length = 20)
+    @Size(max = 50, message = "Status deve ter no máximo 50 caracteres")
+    @Column(name = "PRO_STATUS")
     private String proStatus;
 
-    @NotBlank(message = "Categoria do produto é obrigatória")
-    @Size(max = 50, message = "Categoria do produto inválida")
-    @Column(name = "PRO_CATEGORIA", length = 50)
+    @Size(max = 100, message = "Categoria deve ter no máximo 100 caracteres")
+    @Column(name = "PRO_CATEGORIA")
     private String proCategoria;
 
-    @Size(max = 50, message = "Código de barras inválido")
-    @Column(name = "PRO_CODIGOBARRAS", length = 50)
+    @Size(max = 50, message = "Código de Barras deve ter no máximo 50 caracteres")
+    @Column(name = "PRO_CODIGOBARRAS")
     private String proCodigoBarras;
 
-    @Size(max = 50, message = "Marca inválida")
-    @Column(name = "PRO_MARCA", length = 50)
+    @Size(max = 100, message = "Marca deve ter no máximo 100 caracteres")
+    @Column(name = "PRO_MARCA")
     private String proMarca;
 
     @Column(name = "PRO_DATACADASTRO")
@@ -56,17 +65,17 @@ public class Produto implements Serializable {
     @Column(name = "PRO_DATAATUALIZACAO")
     private LocalDateTime proDataAtualizacao;
 
-
     public Produto() {
     }
 
-    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeEstoque, String proStatus, String proCategoria, String proCodigoBarras, String proMarca, LocalDateTime proDataCadastro, LocalDateTime proDataAtualizacao) {
+    public Produto(Long proId, Fornecedor fornecedor, String proNome, Double proPrecoCusto, Double proPrecoVenda, String proDescricao, int proQuantidadeStock, String proStatus, String proCategoria, String proCodigoBarras, String proMarca, LocalDateTime proDataCadastro, LocalDateTime proDataAtualizacao) {
         this.proId = proId;
+        this.fornecedor = fornecedor;
         this.proNome = proNome;
         this.proPrecoCusto = proPrecoCusto;
         this.proPrecoVenda = proPrecoVenda;
         this.proDescricao = proDescricao;
-        this.proQuantidadeEstoque = proQuantidadeEstoque;
+        this.proQuantidadeStock = proQuantidadeStock;
         this.proStatus = proStatus;
         this.proCategoria = proCategoria;
         this.proCodigoBarras = proCodigoBarras;
@@ -81,6 +90,14 @@ public class Produto implements Serializable {
 
     public void setProId(Long proId) {
         this.proId = proId;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
     public String getProNome() {
@@ -115,12 +132,12 @@ public class Produto implements Serializable {
         this.proDescricao = proDescricao;
     }
 
-    public int getProQuantidadeEstoque() {
-        return proQuantidadeEstoque;
+    public int getProQuantidadeStock() {
+        return proQuantidadeStock;
     }
 
-    public void setProQuantidadeEstoque(int proQuantidadeEstoque) {
-        this.proQuantidadeEstoque = proQuantidadeEstoque;
+    public void setProQuantidadeStock(int proQuantidadeStock) {
+        this.proQuantidadeStock = proQuantidadeStock;
     }
 
     public String getProStatus() {

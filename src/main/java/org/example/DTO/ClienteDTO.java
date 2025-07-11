@@ -1,14 +1,11 @@
-package org.example.dto;
+package org.example.DTO;
 
-import org.hibernate.validator.constraints.br.CNPJ;
+public class ClienteDTO {
 
-public class FornecedorDTO {
-
-    private Long forId;
-    private String forNomeFantasia;
-    @CNPJ(message = "CNPJ inválido")
-    private String forCnpj;
-    private String forRazaoSocial;
+    private Long cliId;
+    private String cliNome;
+    private String cliCpf;
+    private String conEmail;
 
 
     private String endRua;
@@ -17,44 +14,49 @@ public class FornecedorDTO {
     private String endCep;
     private String endEstado;
 
+
     private String conCelular;
     private String conTelefoneComercial;
-    private String conEmail;
 
-    public FornecedorDTO() {
+
+
+
+    public ClienteDTO(){
     }
 
-    public Long getForId() {
-        return forId;
+
+    public Long getCliId() {
+        return cliId;
     }
 
-    public void setForId(Long forId) {
-        this.forId = forId;
+    public void setCliId(Long cliId) {
+        this.cliId = cliId;
     }
 
-    public String getForNomeFantasia() {
-        return forNomeFantasia;
+    public String getCliNome() {
+        return cliNome;
     }
 
-    public void setForNomeFantasia(String forNomeFantasia) {
-        this.forNomeFantasia = forNomeFantasia;
+    public void setCliNome(String cliNome) {
+        this.cliNome = cliNome;
     }
 
-    public String getForCnpj() {
-        return forCnpj;
+    public String getCliCpf() {
+        return cliCpf;
     }
 
-    public void setForCnpj(String forCnpj) {
-        this.forCnpj = forCnpj;
+    public void setCliCpf(String cliCpf) {
+        this.cliCpf = cliCpf;
     }
 
-    public String getForRazaoSocial() {
-        return forRazaoSocial;
+    public String getConEmail() {
+        return conEmail;
     }
 
-    public void setForRazaoSocial(String forRazaoSocial) {
-        this.forRazaoSocial = forRazaoSocial;
+    public void setConEmail(String conEmail) {
+        this.conEmail = conEmail;
     }
+
 
     public String getEndRua() {
         return endRua;
@@ -112,11 +114,4 @@ public class FornecedorDTO {
         this.conTelefoneComercial = conTelefoneComercial;
     }
 
-    public String getConEmail() {
-        return conEmail;
-    }
-
-    public void setConEmail(String conEmail) {
-        this.conEmail = conEmail;
-    }
 }

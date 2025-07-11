@@ -1,10 +1,8 @@
 package org.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -14,6 +12,7 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "END_ID")
     private Long endId;
+
 
     @JsonIgnore
     @ManyToOne
@@ -25,57 +24,44 @@ public class Endereco implements Serializable {
     @JoinColumn(name = "END_FOR_ID")
     private Fornecedor endFornecedor;
 
-
-    @NotBlank(message = "Endereço de rua é obrigatório")
-    @Size(max = 100, message = "Endereço de rua inválido")
-    @Column(name = "END_RUA", length = 100)
+    @Column(name = "END_RUA")
     private String endRua;
 
-    @NotBlank(message = "Número do endereço é obrigatório")
-    @Size(max = 20, message = "Número do endereço inválido")
-    @Column(name = "END_NUMERO", length = 20)
+    @Column(name = "END_NUMERO")
     private String endNumero;
 
-    @NotBlank(message = "Cidade é obrigatória")
-    @Size(max = 50, message = "Cidade inválida")
-    @Column(name = "END_CIDADE", length = 50)
+    @Column(name = "END_CIDADE")
     private String endCidade;
 
-    @NotBlank(message = "CEP é obrigatório")
-    @Size(min = 8, max = 8, message = "CEP deve ter 8 caracteres")
-    @Column(name = "END_CEP", length = 8)
+    @Column(name = "END_CEP", length = 12)
     private String endCep;
 
-    @NotBlank(message = "Estado é obrigatório")
-    @Size(min = 2, max = 2, message = "Estado deve ter 2 caracteres")
     @Column(name = "END_ESTADO", length = 2)
     private String endEstado;
-
-
 
     public Endereco() {
     }
 
-    public Endereco(Long endId,Cliente endCliente, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
-        this.endId = endId;
-        this.endCliente = endCliente;
-        this.endRua = endRua;
-        this.endNumero = endNumero;
-        this.endCidade = endCidade;
-        this.endCep = endCep;
-        this.endEstado = endEstado;
+    public Endereco(Long id, Cliente cliente, String rua, String numero, String cidade, String cep, String estado) {
+        this.endId = id;
+        this.endCliente = cliente;
+        this.endRua = rua;
+        this.endNumero = numero;
+        this.endCidade = cidade;
+        this.endCep = cep;
+        this.endEstado = estado;
     }
 
-    public Endereco(Long endId,Fornecedor endFornecedor, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
-        this.endId = endId;
-        this.endFornecedor = endFornecedor;
-        this.endRua = endRua;
-        this.endNumero = endNumero;
-        this.endCidade = endCidade;
-        this.endCep = endCep;
-        this.endEstado = endEstado;
+    // Construtor para Fornecedor
+    public Endereco(Long id, Fornecedor fornecedor, String rua, String numero, String cidade, String cep, String estado) {
+        this.endId = id;
+        this.endFornecedor = fornecedor;
+        this.endRua = rua;
+        this.endNumero = numero;
+        this.endCidade = cidade;
+        this.endCep = cep;
+        this.endEstado = estado;
     }
-
 
     public Long getEndId() {
         return endId;

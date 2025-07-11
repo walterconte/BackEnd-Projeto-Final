@@ -1,18 +1,15 @@
 package org.example.resources;
 
-import org.apache.coyote.Response;
-import org.example.dto.ClienteDTO;
+import org.example.DTO.ClienteDTO;
 import org.example.entities.Cliente;
 import org.example.services.ClienteService;
+import org.example.services.exeptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -20,43 +17,40 @@ import java.util.stream.Collectors;
 public class ClienteResource {
 
     @Autowired
-    private ClienteService service;
+    private ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll(){
-        List<Cliente> list = service.findAll();
-        List<ClienteDTO> listDto = list.stream().map(obj -> service.toNewDTO(obj))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDto);
+    public ResponseEntity<List<Cliente>> getAll() {
+        List<Cliente> clientes = clienteService.getAll();
+        return ResponseEntity.ok(clientes);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id){
-        Cliente obj = service.findById(id);
-        ClienteDTO dto = service.toNewDTO(obj);
-        return ResponseEntity.ok().body(dto);
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> findById(@PathVariable Long id) {
+        Cliente obj = clienteService.findById(id);
+        return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto){
-        Cliente obj = service.fromDTO(objDto);
-        obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(obj.getCliId()).toUri();
-        return ResponseEntity.created(uri).build();
+    public ResponseEntity<Cliente> insert(@RequestBody ClienteDTO clienteDTO) {
+        Cliente createdCliente = clienteService.insert(clienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCliente);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto,
-        @PathVariable Long id) {
-        service.update(id, objDto);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody ClienteDTO clienteDto) {
+        try {
+            Cliente updatedCliente = clienteService.update(id, clienteDto);
+            return ResponseEntity.ok(updatedCliente);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCliente(@PathVariable Long id){
-        service.deleteCliente(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
+

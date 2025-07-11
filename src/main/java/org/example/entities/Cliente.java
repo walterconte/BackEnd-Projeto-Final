@@ -3,12 +3,12 @@ package org.example.entities;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 public class Cliente implements Serializable {
@@ -31,7 +31,7 @@ public class Cliente implements Serializable {
 
     @NotBlank(message = "CPF é obrigatório")
     @CPF(message = "CPF inválido")
-    @Column(name = "CLI_CPF", length = 15, nullable = false, unique = true)
+    @Column(name = "CLI_CPF", nullable = false, unique = true, length = 15)
     private String cliCpf;
 
 
@@ -42,7 +42,6 @@ public class Cliente implements Serializable {
         this.cliId = cliId;
         this.cliNome = cliNome;
         this.cliCpf = cliCpf;
-
     }
 
     public Long getCliId() {
@@ -84,5 +83,4 @@ public class Cliente implements Serializable {
     public void setCliCpf(String cliCpf) {
         this.cliCpf = cliCpf;
     }
-
 }

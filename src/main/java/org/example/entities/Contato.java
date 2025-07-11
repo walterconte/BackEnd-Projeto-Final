@@ -1,11 +1,10 @@
 package org.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Entity
@@ -23,39 +22,36 @@ public class Contato implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name ="CON_FOR_ID")
+    @JoinColumn(name = "CON_FOR_ID")
     private Fornecedor conFornecedor;
 
-    @Column(name = "CON_CELULAR", length = 14)
+    @NotBlank
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Número de celular inválido")
+    @Column(name = "CON_CELULAR", length = 20)
     private String conCelular;
 
-    @NotBlank(message = "Contato de telefone comercial é obrigatório")
-    @Size(message = "Contato comercial inválido")
-    @Column(name = "CON_TELEFONE_COMERCIAL", length = 55)
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Número de telefone comercial inválido")
+    @Column(name = "CON_TELEFONE_COMERCIAL", length = 20)
     private String conTelefoneComercial;
 
-
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
-    @Size(max = 100,message = "Email deve ter no máximo 100 caracteres")
-    @Column(name = "CON_EMAIL", nullable = false, length = 55)
+    @Email (message = "Email inválido")
+    @Column(length = 55, name = "CON_EMAIL")
     private String conEmail;
-
 
     public Contato() {
     }
 
-    public Contato(Long conId, Cliente conCliente, String conCelular, String conTelefoneComercial, String conEmail) {
+    public Contato(Long conId, Cliente cliente ,String conCelular, String conTelefoneComercial, String conEmail) {
         this.conId = conId;
-        this.conCliente = conCliente;
+        this.conCliente = cliente;
         this.conCelular = conCelular;
         this.conTelefoneComercial = conTelefoneComercial;
         this.conEmail = conEmail;
     }
 
-    public Contato(Long conId, Fornecedor conFornecedor,String conCelular, String conTelefoneComercial, String conEmail) {
+    public Contato(Long conId, Fornecedor fornecedor ,String conCelular, String conTelefoneComercial, String conEmail) {
         this.conId = conId;
-        this.conFornecedor = conFornecedor;
+        this.conFornecedor = fornecedor;
         this.conCelular = conCelular;
         this.conTelefoneComercial = conTelefoneComercial;
         this.conEmail = conEmail;
@@ -77,12 +73,12 @@ public class Contato implements Serializable {
         this.conCliente = conCliente;
     }
 
-    public Fornecedor getConFornecedor() {
+    public Fornecedor getContFornecedor() {
         return conFornecedor;
     }
 
-    public void setConFornecedor(Fornecedor conFornecedor) {
-        this.conFornecedor = conFornecedor;
+    public void setContFornecedor(Fornecedor contFornecedor) {
+        this.conFornecedor = contFornecedor;
     }
 
     public String getConCelular() {

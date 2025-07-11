@@ -1,9 +1,12 @@
 package org.example.entities;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+
 
 @Entity
 public class FormaPagamento  implements Serializable {
@@ -13,24 +16,23 @@ public class FormaPagamento  implements Serializable {
     @Column(name = "FPG_ID")
     private Long fpgId;
 
-    @NotBlank(message = "Descrição do pagamento é obrigatória")
-    @Size(max = 100, message = "Descrição do pagamento inválida")
-    @Column(name = "FPG_DESCRICAO", length = 100)
+    @NotBlank(message = "Descrição é obrigatória")
+    @Size(max = 255, message = "Descrição deve ter no máximo 255 caracteres")
+    @Column(name = "FPG_DESCRICAO", nullable = false, length = 255)
     private String fpgDescricao;
 
-    @NotBlank(message = "Tipo de pagamento é obrigatório")
-    @Size(max = 50, message = "Tipo de pagamento inválido")
-    @Column(name = "FPG_TIPO", length = 50)
+    @NotBlank(message = "Tipo é obrigatório")
+    @Size(max = 50, message = "Tipo deve ter no máximo 50 caracteres")
+    @Column(name = "FPG_TIPO", nullable = false, length = 50)
     private String fpgTipo;
 
-    @Column(name = "FPG_TAXA")
+    @Column(name = "FPG_TAXA", nullable = false)
     private double fpgTaxa;
 
-    @NotBlank(message = "Parcelamento do pagamento é obrigatório")
-    @Size(max = 50, message = "Parcelamento do pagamento inválido")
-    @Column(name = "FPG_PARCELAMENTO", length = 50)
+    @NotBlank(message = "Parcelamento é obrigatório")
+    @Size(max = 100, message = "Parcelamento deve ter no máximo 100 caracteres")
+    @Column(name = "FPG_PARCELAMENTO", nullable = false, length = 100)
     private String fpgParcelamento;
-
 
     public FormaPagamento() {
     }
@@ -59,27 +61,10 @@ public class FormaPagamento  implements Serializable {
         this.fpgDescricao = fpgDescricao;
     }
 
-    public String getFpgTipo() {
-        return fpgTipo;
-    }
-
-    public void setFpgTipo(String fpgTipo) {
-        this.fpgTipo = fpgTipo;
-    }
-
-    public double getFpgTaxa() {
-        return fpgTaxa;
-    }
-
-    public void setFpgTaxa(double fpgTaxa) {
-        this.fpgTaxa = fpgTaxa;
-    }
-
-    public String getFpgParcelamento() {
-        return fpgParcelamento;
-    }
-
-    public void setFpgParcelamento(String fpgParcelamento) {
-        this.fpgParcelamento = fpgParcelamento;
-    }
+    public String getFpgTipo() { return fpgTipo; }
+    public void setFpgTipo(String fpgTipo) { this.fpgTipo = fpgTipo;
+    } public double getFpgTaxa() { return fpgTaxa; }
+    public void setFpgTaxa(double fpgTaxa) { this.fpgTaxa = fpgTaxa; }
+    public String getFpgParcelamento() { return fpgParcelamento; }
+    public void setFpgParcelamento(String fpgParcelamento) { this.fpgParcelamento = fpgParcelamento; }
 }
